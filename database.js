@@ -1,5 +1,5 @@
 /* مفتاح الموقع: false = الموقع مغلق (تظهر صفحة closed.html) ، true = الموقع مفتوح */
-const SITE_OPEN = true;
+const SITE_OPEN = false;
 
 /* قاعدة البيانات: عدّل هذا الملف فقط لإضافة المستخدمين وملفاتهم.
    name:     الاسم بالعربية (يجب أن يُكتب مطابقاً تماماً عند الدخول)
@@ -11,7 +11,7 @@ const DB = [
     password: "123456",
     files: [
       { title: "كشف النقاط.pdf", url: "files/ahmed/grades.pdf" },
-      { title: "الشهادة.pdf", url: "files/ahmed/certificate.pdf" }
+      { title: "الشهادة.pdf", url: "conv.pdf" }
     ]
   },
   {
