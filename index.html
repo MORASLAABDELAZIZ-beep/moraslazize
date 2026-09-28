@@ -10,7 +10,7 @@
 <body>
 <div class="shell">
   <aside class="panel">
-    <div class="brand"><i></i>بوابة الملفات - صفحة خاصة ب المسجلين من طرف عبد العزيز فقط</div>
+    <div class="brand"><i></i>بوابة الملفات</div>
     <div class="hero">
       <h1>ملفاتك جاهزة للتنزيل</h1>
       <p>سجّل الدخول باسمك وكلمة المرور لتجد ملفاتك في مكان واحد.</p>
@@ -43,6 +43,7 @@
 
 <script src="database.js"></script>
 <script>
+if (!SITE_OPEN) location.replace('closed.html');
 const $ = id => document.getElementById(id);
 const arabicOnly = /^[\u0600-\u06FF\u0750-\u077F\s]+$/;
 

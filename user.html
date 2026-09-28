@@ -30,6 +30,7 @@
 
 <script src="database.js"></script>
 <script>
+if (!SITE_OPEN) location.replace('closed.html');
 const $ = id => document.getElementById(id);
 
 let name = null;

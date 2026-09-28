@@ -58,3 +58,11 @@ input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-m
  .hero h1{font-size:1.7rem}
  .panel:after{width:180px;height:180px;bottom:-70px}
 }
+
+/* صفحة الإغلاق */
+.info{margin-top:8px;border-top:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row span{color:var(--muted)}
+.row strong{font-weight:600;text-align:left}
+.closed{display:inline-flex;align-items:center;gap:8px;color:var(--err)}
+.dot{width:9px;height:9px;border-radius:50%;background:currentColor;display:inline-block}
