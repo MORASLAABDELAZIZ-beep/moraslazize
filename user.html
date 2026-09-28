@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>صفحتي</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="panel">
+    <div class="brand"><i></i>بوابة الملفات</div>
+    <div class="hero">
+      <h1 id="hello"></h1>
+      <p id="count"></p>
+    </div>
+    <div class="foot">هذه الصفحة تعرض ملفاتك أنت فقط</div>
+  </aside>
+
+  <main class="main">
+    <div class="card show">
+      <h2>ملفاتك</h2>
+      <p class="sub">اضغط «تنزيل» بجانب الملف الذي تريده.</p>
+      <div id="files"></div>
+      <button class="link" id="logout">تسجيل الخروج</button>
+    </div>
+  </main>
+</div>
+
+<script src="database.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+let name = null;
+try { name = sessionStorage.getItem('userName'); } catch (e) {}
+const user = DB.find(u => u.name === name);
+
+if (!user) {
+  location.replace('index.html');   // لم يسجّل الدخول
+} else {
+  $('hello').textContent = 'أهلاً ' + user.name;
+  $('count').textContent = user.files.length
+    ? 'لديك ' + user.files.length + ' ملف متاح للتنزيل.'
+    : 'لا توجد ملفات لك حالياً.';
+
+  const box = $('files');
+  if (!user.files.length) box.innerHTML = '<div class="empty">لا توجد ملفات لك حالياً.</div>';
+  user.files.forEach(f => {
+    const parts = f.title.split('.');
+    const ext = parts.length > 1 ? parts.pop() : 'FILE';
+    const row = document.createElement('div');
+    row.className = 'file';
+    const badge = document.createElement('div');
+    badge.className = 'ext'; badge.textContent = ext.toUpperCase();
+    const label = document.createElement('div');
+    label.className = 'fname'; label.textContent = parts.join('.');
+    const a = document.createElement('a');
+    a.className = 'btn'; a.href = f.url; a.download = f.title; a.textContent = 'تنزيل';
+    row.append(badge, label, a);
+    box.appendChild(row);
+  });
+}
+
+$('logout').onclick = () => {
+  try { sessionStorage.removeItem('userName'); } catch (e) {}
+  location.replace('index.html');
+};
+</script>
+</body>
+</html>

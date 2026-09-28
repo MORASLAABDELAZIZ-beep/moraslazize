@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>بوابة الملفات</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="panel">
+    <div class="brand"><i></i>بوابة الملفات - صفحة خاصة ب المسجلين من طرف عبد العزيز فقط</div>
+    <div class="hero">
+      <h1>ملفاتك جاهزة للتنزيل</h1>
+      <p>سجّل الدخول باسمك وكلمة المرور لتجد ملفاتك في مكان واحد.</p>
+    </div>
+    <div class="foot">لكل مستخدم ملفاته الخاصة فقط</div>
+  </aside>
+
+  <main class="main">
+    <div class="card">
+      <section id="login" class="show">
+        <h2>تسجيل الدخول</h2>
+        <p class="sub">اكتب اسمك بالعربية وكلمة المرور.</p>
+
+        <label for="name">الاسم</label>
+        <input id="name" type="text" autocomplete="name" placeholder="مثال: أحمد بن علي">
+        <div class="err" id="nameErr"></div>
+
+        <label for="pass">كلمة المرور</label>
+        <div class="pw">
+          <input id="pass" type="password" autocomplete="current-password">
+          <button type="button" id="toggle">إظهار</button>
+        </div>
+        <div class="err" id="passErr"></div>
+
+        <button class="btn full" id="next">دخول</button>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script src="database.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const arabicOnly = /^[\u0600-\u06FF\u0750-\u077F\s]+$/;
+
+$('toggle').onclick = () => {
+  const show = $('pass').type === 'password';
+  $('pass').type = show ? 'text' : 'password';
+  $('toggle').textContent = show ? 'إخفاء' : 'إظهار';
+};
+
+function login() {
+  const name = $('name').value.trim();
+  const pass = $('pass').value;
+  let valid = true;
+  $('nameErr').textContent = '';
+  $('passErr').textContent = '';
+
+  if (!name) { $('nameErr').textContent = 'اكتب اسمك'; valid = false; }
+  else if (!arabicOnly.test(name)) { $('nameErr').textContent = 'اكتب الاسم بالحروف العربية فقط'; valid = false; }
+  if (pass.length < 6) { $('passErr').textContent = 'كلمة المرور 6 أحرف على الأقل'; valid = false; }
+  if (!valid) return;
+
+  const user = DB.find(u => u.name === name && u.password === pass);
+  if (!user) { $('passErr').textContent = 'الاسم أو كلمة المرور غير صحيحة. راجعهما وحاول مرة أخرى.'; return; }
+
+  try { sessionStorage.setItem('userName', user.name); } catch (e) {}
+  location.href = 'user.html';
+}
+
+$('next').onclick = login;
+['name', 'pass'].forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') login(); }));
+</script>
+</body>
+</html>
